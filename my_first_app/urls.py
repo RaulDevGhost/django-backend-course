@@ -14,15 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.http import HttpResponse
 from django.urls import path
-
-def my_view(request, *args, **kwargs):
-    print(request)
-    print(args)
-    print(kwargs)
-    return HttpResponse(f"Hello, world! {kwargs}")
+from .views import my_view, my_view2, BookListView
 urlpatterns = [
-    path("list", my_view),
-    path("details/<int:id>", my_view)
+    path("list", BookListView.as_view()),
+    path("details/<int:id>", my_view2)
 ]
