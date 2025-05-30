@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+</head>
+<body>
+    <h1>Add New Product</h1>
+
+    <!-- Basic form rendering -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Product</button>
+    </form>
+
+    <!-- Or for more control, render fields individually -->
+    <!--
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div>
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+
+        <div>
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+
+        <div>
+            {{ form.price.label_tag }}
+            {{ form.price }}
+            {{ form.price.errors }}
+        </div>
+
+        <div>
+            {{ form.available.label_tag }}
+            {{ form.available }}
+            {{ form.available.errors }}
+        </div>
+
+        <div>
+            {{ form.stock.label_tag }}
+            {{ form.stock }}
+            {{ form.stock.errors }}
+        </div>
+
+        <div>
+            {{ form.photo.label_tag }}
+            {{ form.photo }}
+            {{ form.photo.errors }}
+        </div>
+
+        <button type="submit">Save Product</button>
+    </form>
+    -->
+</body>
+</html>
