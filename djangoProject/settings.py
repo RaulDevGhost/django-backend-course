@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,8 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_tailwind',
     'my_first_app',
-    'products'
+    'products',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -70,28 +71,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Add these media settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'my_first_app_db',  # The name of your database
-            'USER': 'postgres',         # Default postgres user (change if needed)
-            'PASSWORD': '',  # Your database password
-            'HOST': 'localhost',        # Set to your database server address
-            'PORT': '5432',             # Default PostgreSQL port
-        }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_first_app_db',  # The name of your database
+        'USER': 'postgres',  # Default postgres user (change if needed)
+        'PASSWORD': '',  # Your database password
+        'HOST': 'localhost',  # Set to your database server address
+        'PORT': '5432',  # Default PostgreSQL port
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -111,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -123,7 +120,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
@@ -133,3 +129,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
+
+LOGIN_REDIRECT_URL= '/products/list/'  # Redirect to book list after login

@@ -1,62 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Product</title>
-</head>
-<body>
-    <h1>Add New Product</h1>
+{% extends 'base.html' %}
 
-    <!-- Basic form rendering -->
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Product</button>
-    </form>
+{% block title %}Add Product - My Store{% endblock title %}
 
-    <!-- Or for more control, render fields individually -->
-    <!--
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+{% block page_title %}Add New Product{% endblock page_title %}
 
-        <div>
-            {{ form.name.label_tag }}
-            {{ form.name }}
-            {{ form.name.errors }}
+{% block content %}
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white shadow-sm rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Product Information</h3>
+                <p class="mt-1 text-sm text-gray-600">Fill in the details below to add a new product to your store.</p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="p-6 space-y-6">
+                {% csrf_token %}
+
+                <!-- Name Field -->
+                <div>
+                    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.name.label }}
+                    </label>
+                    <input type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}"
+                           class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                           value="{{ form.name.value|default:'' }}" placeholder="Enter product name">
+                    {% if form.name.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.name.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Description Field -->
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.description.label }}
+                    </label>
+                    <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" rows="4"
+                              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm resize-none"
+                              placeholder="Enter product description">{{ form.description.value|default:'' }}</textarea>
+                    {% if form.description.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.description.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Price and Stock Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Price Field -->
+                    <div>
+                        <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.price.label }}
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">$</span>
+                            </div>
+                            <input type="number" name="{{ form.price.name }}" id="{{ form.price.id_for_label }}"
+                                   step="0.01" min="0"
+                                   class="block w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                   value="{{ form.price.value|default:'' }}" placeholder="0.00">
+                        </div>
+                        {% if form.price.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.price.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Stock Field -->
+                    <div>
+                        <label for="{{ form.stock.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.stock.label }}
+                        </label>
+                        <input type="number" name="{{ form.stock.name }}" id="{{ form.stock.id_for_label }}"
+                               min="0"
+                               class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                               value="{{ form.stock.value|default:'' }}" placeholder="0">
+                        {% if form.stock.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.stock.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Available Field -->
+                <div class="flex items-center">
+                    <input type="checkbox" name="{{ form.available.name }}" id="{{ form.available.id_for_label }}"
+                           class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                           {% if form.available.value %}checked{% endif %}>
+                    <label for="{{ form.available.id_for_label }}" class="ml-2 block text-sm text-gray-700">
+                        {{ form.available.label }}
+                    </label>
+                    {% if form.available.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.available.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Photo Field -->
+                <div>
+                    <label for="{{ form.photo.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.photo.label }}
+                    </label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="{{ form.photo.id_for_label }}" class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-primary-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
+                                    <span>Upload a photo</span>
+                                    <input id="{{ form.photo.id_for_label }}" name="{{ form.photo.name }}" type="file" class="sr-only" accept="image/*">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                    </div>
+                    {% if form.photo.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.photo.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Form Actions -->
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <a href="{% url 'list_product' %}"
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200">
+                        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200">
+                        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Save Product
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div>
-            {{ form.description.label_tag }}
-            {{ form.description }}
-            {{ form.description.errors }}
-        </div>
-
-        <div>
-            {{ form.price.label_tag }}
-            {{ form.price }}
-            {{ form.price.errors }}
-        </div>
-
-        <div>
-            {{ form.available.label_tag }}
-            {{ form.available }}
-            {{ form.available.errors }}
-        </div>
-
-        <div>
-            {{ form.stock.label_tag }}
-            {{ form.stock }}
-            {{ form.stock.errors }}
-        </div>
-
-        <div>
-            {{ form.photo.label_tag }}
-            {{ form.photo }}
-            {{ form.photo.errors }}
-        </div>
-
-        <button type="submit">Save Product</button>
-    </form>
-    -->
-</body>
-</html>
+    </div>
+{% endblock content %}
